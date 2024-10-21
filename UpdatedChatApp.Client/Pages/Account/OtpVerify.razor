@@ -1,0 +1,85 @@
+﻿@page "/otp-verify"
+@using ChatApp.model.Request.Account
+@using UpdatedChatApp.Client.Services
+@inject HttpClient Http
+@inject NavigationManager navigation
+@inject LocalStorageService LocalStorage
+
+<div class="container">
+    <h2>OTP Verify</h2>
+    <EditForm Model="@otpModel" OnValidSubmit="VerifyOtp">
+        <!-- OTP input field only -->
+        <div class="form-group">
+            <label for="otp">Otp Verify</label>
+            <input type="text" id="otp" class="form-control" placeholder="Enter OTP" @bind="otpModel.OtpCode" />
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3 w-100">Verify</button>
+    </EditForm>
+</div>
+
+<style>
+    .container {
+        max-width: 400px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .btn-primary {
+        background-color: #8a2be2;
+        border-color: #8a2be2;
+    }
+
+        .btn-primary:hover {
+            background-color: #7a1dd1;
+            border-color: #7a1dd1;
+        }
+</style>
+
+@code {
+    private VerifyOtp otpModel = new VerifyOtp();
+    private string userEmail;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Retrieve the email from local storage
+        userEmail = await LocalStorage.GetItemAsync<string>("VerificationEmail");
+        if (string.IsNullOrEmpty(userEmail))
+        {
+            navigation.NavigateTo("/register");
+        }
+    }
+
+    private async Task VerifyOtp()
+    {
+        var apiEndpoint = "https://localhost:7145/api/Account/verify-otp";
+        try
+        {
+            // Include the email in the OTP verification request
+            otpModel.Email = userEmail;
+            var response = await Http.PostAsJsonAsync(apiEndpoint, otpModel);
+            if (response.IsSuccessStatusCode)
+            {
+                // Clear the email from local storage after successful verification
+                await LocalStorage.RemoveItemAsync("VerificationEmail");
+                navigation.NavigateTo("/");
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Error: " + errorMessage);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error occurred: " + ex.Message);
+        }
+    }
+}

@@ -1,0 +1,99 @@
+﻿@page "/register"
+@using UpdatedChatApp.Client.Services
+@using ChatApp.model.Request.Account
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject LocalStorageService LocalStorage
+
+<div class="container">
+    <h2>Sign Up</h2>
+    <EditForm Model="@registerModel" OnValidSubmit="RegisterUser">
+        <!-- Username input field with two-way binding -->
+        <div class="form-group">
+            <label for="username">UserName</label>
+            <!-- Two-way binding with @bind to registerModel.UserName -->
+            <input type="text" id="username" class="form-control" placeholder="UserName" @bind="registerModel.UserName" />
+        </div>
+
+        <!-- Email input field with two-way binding -->
+        <div class="form-group">
+            <label for="email">Email</label>
+            <!-- Two-way binding with @bind to registerModel.Email -->
+            <input type="email" id="email" class="form-control" placeholder="Email" @bind="registerModel.Email" />
+        </div>
+
+        <!-- Password input field with two-way binding -->
+        <div class="form-group">
+            <label for="password">Password</label>
+            <!-- Two-way binding with @bind to registerModel.Password -->
+            <input type="password" id="password" class="form-control" @bind="registerModel.Password" />
+        </div>
+
+        <div class="mt-2">
+            <a href="/forgot-password">Forgot your password?</a>
+        </div>
+
+        <!-- Submit button to trigger form submission -->
+        <button type="submit" class="btn btn-primary mt-3 w-100">Sign Up</button>
+    </EditForm>
+    <div class="mt-3">
+        Don't have an account yet? <a href="/">Login</a>
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 400px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .btn-primary {
+        background-color: #8a2be2;
+        border-color: #8a2be2;
+    }
+
+        .btn-primary:hover {
+            background-color: #7a1dd1;
+            border-color: #7a1dd1;
+        }
+
+    a {
+        color: #8a2be2;
+    }
+</style>
+
+@code {
+    private RegisterRequest registerModel = new RegisterRequest();
+
+    private async Task RegisterUser()
+    {
+        var apiEndpoint = "https://localhost:7145/api/Account/register";
+        try
+        {
+            var response = await Http.PostAsJsonAsync(apiEndpoint, registerModel);
+            if (response.IsSuccessStatusCode)
+            {
+                // Store the email in local storage
+                await LocalStorage.SetItemAsync("VerificationEmail", registerModel.Email);
+                NavigationManager.NavigateTo("/otp-verify");
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Error: " + errorMessage);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error occurred: " + ex.Message);
+        }
+    }
+}
