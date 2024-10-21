@@ -1,4 +1,5 @@
-﻿using ChatApp.model.Entities;
+﻿
+using UpdatedChatApp.model.Entities;
 
 namespace UpdatedChatApp.Interfaces
 {

@@ -1,4 +1,5 @@
-﻿using ChatApp.model.Response.User;
+﻿
+using UpdatedChatApp.model.Response.User;
 
 namespace UpdatedChatApp.Interfaces
 {

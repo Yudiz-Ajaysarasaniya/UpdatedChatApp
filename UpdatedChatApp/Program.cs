@@ -1,6 +1,3 @@
-using ChatApp.notify;
-using ChatApp.notify.Implementation;
-using ChatApp.notify.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -8,6 +5,9 @@ using System.Text;
 using UpdatedChatApp.AppContext;
 using UpdatedChatApp.Helper;
 using UpdatedChatApp.Interfaces;
+using UpdatedChatApp.notify;
+using UpdatedChatApp.notify.Implementation;
+using UpdatedChatApp.notify.Model;
 using UpdatedChatApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);

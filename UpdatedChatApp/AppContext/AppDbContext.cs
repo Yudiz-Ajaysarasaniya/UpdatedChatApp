@@ -1,7 +1,7 @@
-﻿using ChatApp.model.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using System.Collections.Generic;
+using UpdatedChatApp.model.Entities;
 
 namespace UpdatedChatApp.AppContext
 {

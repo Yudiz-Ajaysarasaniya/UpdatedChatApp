@@ -1,6 +1,6 @@
-﻿using ChatApp.model.Request.Account;
-using ChatApp.model.Response.Authentication;
-using ChatApp.model.Response.Base;
+﻿using UpdatedChatApp.model.Request.Account;
+using UpdatedChatApp.model.Response.Authentication;
+using UpdatedChatApp.model.Response.Base;
 
 namespace UpdatedChatApp.Interfaces
 {

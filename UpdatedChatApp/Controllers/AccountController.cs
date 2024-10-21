@@ -1,8 +1,7 @@
-﻿using ChatApp.model.Request.Account;
-using ChatApp.notify;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using UpdatedChatApp.Interfaces;
+using UpdatedChatApp.model.Request.Account;
+using UpdatedChatApp.notify;
 
 namespace UpdatedChatApp.Controllers
 {

@@ -1,7 +1,7 @@
-﻿using ChatApp.model.Response.User;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using UpdatedChatApp.AppContext;
 using UpdatedChatApp.Interfaces;
+using UpdatedChatApp.model.Response.User;
 
 namespace UpdatedChatApp.Services
 {

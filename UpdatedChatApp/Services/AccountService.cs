@@ -1,15 +1,15 @@
-﻿using ChatApp.model.Entities;
-using ChatApp.model.Request.Account;
-using ChatApp.model.Response.Authentication;
-using ChatApp.model.Response.Base;
-using ChatApp.notify;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using UpdatedChatApp.AppContext;
 using UpdatedChatApp.Interfaces;
+using UpdatedChatApp.model.Entities;
+using UpdatedChatApp.model.Request.Account;
+using UpdatedChatApp.model.Response.Authentication;
+using UpdatedChatApp.model.Response.Base;
+using UpdatedChatApp.notify;
 
 namespace UpdatedChatApp.Services
 {

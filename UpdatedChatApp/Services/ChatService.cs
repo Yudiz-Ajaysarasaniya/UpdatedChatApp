@@ -1,7 +1,7 @@
-﻿using ChatApp.model.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using UpdatedChatApp.AppContext;
 using UpdatedChatApp.Interfaces;
+using UpdatedChatApp.model.Entities;
 
 namespace UpdatedChatApp.Services
 {
