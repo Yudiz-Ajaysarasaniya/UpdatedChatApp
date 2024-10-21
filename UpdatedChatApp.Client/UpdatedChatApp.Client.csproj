@@ -14,8 +14,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\ChatApp\ChatApp.model\ChatApp.model.csproj" />
-  </ItemGroup>
-
 </Project>
