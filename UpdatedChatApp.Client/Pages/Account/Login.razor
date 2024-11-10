@@ -5,7 +5,7 @@
 @using UpdatedChatApp.model.Response.Authentication
 @inject NavigationManager navigation
 @inject HttpClient http
-@* @inject IToastService toastService *@
+@inject IToastService toastService
 @inject LocalStorageService localstorage
 
 <div class="container">
@@ -19,10 +19,6 @@
             <label for="password">Password</label>
             <input type="password" id="password" class="form-control" @bind="loginRequest.Password" />
         </div>
-        @*  <div class="form-check">
-        <input type="checkbox" id="rememberMe" class="form-check-input" />
-        <label class="form-check-label" for="rememberMe">Remember me</label>
-        </div> *@
         <div class="mt-2">
             <a href="/forgot-password">Forgot your password?</a>
         </div>
@@ -91,23 +87,24 @@
                     // Store the entire login response in local storage
                     await localstorage.SetItemAsync("userLoginInfo", loginResponse);
 
-                    //toastService.ShowSuccess("Login successful!");
+                    toastService.ShowSuccess("Login successful!");
                     navigation.NavigateTo("/chats");
                 }
                 else
                 {
-                    //ToastService.ShowError(loginResponse?.ErrorMessage ?? "Login failed");
+                    toastService.ShowError(loginResponse?.ErrorMessage ?? "Login failed");
                 }
             }
             else
             {
                 var errorMessage = await response.Content.ReadAsStringAsync();
-                Console.WriteLine("Error: " + errorMessage);
+                toastService.ShowError(errorMessage);
             }
         }
         catch (Exception ex)
         {
             Console.WriteLine("An error occurred: " + ex.Message);
+            toastService.ShowError("An error occurred: " + ex.Message);
         }
     }
 }

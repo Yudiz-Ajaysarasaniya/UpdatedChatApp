@@ -13,11 +13,5 @@ namespace UpdatedChatApp.model.Entities
         public Guid ReceiverId { get; set; }
         public string? Content { get; set; }
         public DateTime Timestamp { get; set; }
-
-        /* [ForeignKey("SenderId")]
-         public virtual Register Sender { get; set; }
-
-         [ForeignKey("ReceiverId")]
-         public virtual Register Receiver { get; set; }*/
     }
 }

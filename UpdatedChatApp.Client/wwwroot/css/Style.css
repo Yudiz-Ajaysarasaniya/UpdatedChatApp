@@ -1,0 +1,460 @@
+﻿/* Modern Chat Application Styling */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+}
+
+.chat-container {
+    display: flex;
+    height: 100vh;
+    background: linear-gradient(135deg, #f6f9fc 0%, #edf1f7 100%);
+}
+
+/* Sidebar/Chat list styling */
+.chat-list {
+    width: 28%;
+    background: white;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    border-right: 1px solid #e1e4e8;
+    padding: 0;
+}
+
+/* User profile section */
+.user-profile {
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+}
+.chat-info {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between name and email */
+    flex: 1;
+}
+
+.chat-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.user-profile-image {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    margin-right: 12px;
+}
+
+    .user-profile-image:hover {
+        transform: scale(1.05);
+    }
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.username {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0;
+    color: white;
+    white-space: nowrap;
+}
+
+/* Search box styling */
+.search-container {
+    position: relative;
+    max-width: 380px; /* Control the width of the search container */
+    margin: 10px 15px;
+}
+
+.search-box {
+    width: 100%;
+    padding: 8px 35px 8px 15px;
+    border: none;
+    border-radius: 15px;
+    background-color: #f0f2f5;
+    outline: none;
+    font-size: 14px;
+}
+
+.search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #65676b;
+    pointer-events: none;
+    font-size: 14px;
+}
+/* Chat list items */
+.chat-list-item {
+    padding: 15px 20px;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    margin: 5px 10px;
+    display: flex;
+    align-items: center;
+}
+
+    .chat-list-item.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .chat-list-item.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .chat-list-item img {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 12px;
+    }
+
+
+/* Chat window */
+.chat-window {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border: 1px solid #e1e4e8;  /* Light gray professional border */
+    border-radius: 8px;         /* Rounded corners */
+    margin: 10px;              /* Some spacing from edges */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+    overflow: hidden;          /* Keeps child elements within border radius */
+}
+
+/* Chat header */
+.chat-header {
+    padding: 20px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+}
+
+    .chat-header img {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        margin-right: 15px;
+    }
+
+    .chat-header h5 {
+        font-size: 1.1rem;
+        margin: 0;
+        color: #2d3748;
+    }
+
+/* Message area */
+.message-area {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: #f8fafc;
+    overflow-x: hidden;
+}
+
+.message {
+    max-width: 60%;
+    margin-bottom: 20px;
+    padding: 10px 15px; /* Reduced padding */
+    border-radius: 15px;
+    position: relative;
+    animation: fadeIn 0.3s ease;
+    word-wrap: break-word;
+    word-break: break-word;
+    display: inline-block;
+    min-width: 100px;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+}
+
+.message-left {
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-right: auto;
+    border-bottom-left-radius: 5px;
+    text-align: left;
+    float: left;
+    clear: both;
+    width: fit-content;
+}
+
+.message-right {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 5px;
+    text-align: right;
+    float: right;
+    clear: both;
+    width: fit-content;
+}
+
+.message-content {
+    max-height: none;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    text-align: left;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.message small {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    display: block;
+    margin-top: 4px;
+    text-align: right; /* Align timestamp to the right */
+}
+
+/* Added container to clear floats */
+.message-container::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Input area */
+.input-area {
+    padding: 20px;
+    background: white;
+    border-top: 1px solid #edf2f7;
+    width: 100%;
+    max-width: 1200px; /* વધુ maximum width */
+    margin: 0 auto;
+}
+
+.input-group {
+    background: #f5f7fb;
+    border-radius: 30px;
+    padding: 5px 5px 5px 20px; /* left padding વધાર્યું */
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    width: 100%; /* full width */
+}
+
+    .input-group input {
+        flex: 1;
+        padding: 12px 20px;
+        border: none;
+        background: transparent;
+        font-size: 0.95rem;
+        color: #4a5568;
+        width: calc(100% - 70px); /* button ની width બાદ કરીને */
+        min-width: 200px; /* minimum width સેટ કરી */
+    }
+
+        .input-group input:focus {
+            outline: none;
+        }
+
+.btn-outline-secondary {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    cursor: pointer;
+    margin-left: 10px; /* input થી થોડું દૂર */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0; /* button નું size fix રાખવા */
+}
+
+    .btn-outline-secondary:hover {
+        transform: scale(1.05);
+        box-shadow: 0 2px 10px rgba(102, 126, 234, 0.5);
+    }
+
+    .btn-outline-secondary i {
+        font-size: 1.2rem;
+    }
+
+/* Logout button */
+.btn-danger {
+    background: #ff4757;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+    .btn-danger:hover {
+        background: #ff6b81;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 10px rgba(255, 71, 87, 0.3);
+    }
+
+.user-name-button {
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 15px;
+    transition: background-color 0.3s ease;
+    margin: 0;
+    color: #2d3748;
+}
+
+    .user-name-button:hover {
+        background-color: rgba(102, 126, 234, 0.1);
+    }
+
+/* Dialog styles */
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+    .dialog-overlay.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+.dialog-content {
+    background: white;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+}
+
+.dialog-overlay.visible .dialog-content {
+    transform: translateY(0);
+}
+
+.dialog-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.dialog-profile-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    margin-right: 15px;
+}
+
+.dialog-title {
+    color: white;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.close-button {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.2s ease;
+}
+
+    .close-button:hover {
+        transform: scale(1.1);
+    }
+
+.dialog-body {
+    padding: 20px;
+    /*height: 200px;*/
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.info-item {
+    display: block;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    color: #4a5568;
+}
+
+    .info-item i {
+        width: 20px;
+        color: #667eea;
+    }
+.user-profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 15px;
+    transition: background-color 0.3s ease;
+}
+
+    .user-profile-trigger:hover {
+        background-color: rgba(102, 126, 234, 0.1);
+    }
+
+.profile-image-button {
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+}
+
+.user-profile-trigger:hover .profile-image-button {
+    transform: scale(1.05);
+}
+
+/* Update existing style */
+.user-name-button {
+    margin: 0;
+    padding: 0;
+    color: #2d3748;
+}
