@@ -57,6 +57,18 @@
         @* chat window *@
         <div class="chat-window">
             @* chat header *@
+            @if(selectedUser == null)
+            {
+                <!-- Welcome Screen -->
+                <div class="welcome-container">
+                    @* <img src="images/profile.png" alt="Profile Image" class="welcome-profile-image">
+                    <div class="welcome-email">ajaysarasaniya11@gmail.com</div> *@
+                    <div class="welcome-message">Welcome to ChatApp!</div>
+                </div>
+            }
+            else
+            {
+                
             <div class="chat-header">
 
                 @if (selectedUser != null)
@@ -123,16 +135,17 @@
 
             <div class="input-area">
                 <div class="input-group">
-                    <input type="text" class="form-control" @bind="newMessage" @onkeyup="HandleKeyPress"
-                           placeholder="Type a message..." aria-label="Type a message" aria-describedby="send-button">
+                   <i class="fa-solid fa-paperclip"></i>
+                    <input type="text" @bind="newMessage" @onkeyup="HandleKeyPress"
+                           placeholder="Type a message..." aria-label="Type a message" aria-describedby="send-button"/>
                     <button class="btn btn-outline-secondary" type="button" id="send-button" @onclick="SendMessage">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
             </div>
+            }
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 
