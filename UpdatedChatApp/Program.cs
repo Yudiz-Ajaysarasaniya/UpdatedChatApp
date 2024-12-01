@@ -103,6 +103,7 @@ app.UseAuthorization();
 
 // 4. Map SignalR Hubs and Controllers
 app.UseRouting();
+app.UseStaticFiles();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapHub<SignalRHelper>("/signalrhelper");

@@ -6,7 +6,7 @@ namespace UpdatedChatApp.Helper
     public class SignalRHelper : Hub
     {
         private readonly IChatService chatService;
-        private static Dictionary<string, string> ConnectedUsers = new Dictionary<string, string>();
+        public static Dictionary<string, string> ConnectedUsers = new Dictionary<string, string>();
 
         public SignalRHelper(IChatService chatService)
         {

@@ -458,3 +458,106 @@ body, html {
     padding: 0;
     color: #2d3748;
 }
+
+/* Add this to your style.css */
+/* Welcome screen container */
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Profile image styling */
+.welcome-profile-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+/* User email styling */
+.welcome-email {
+    font-size: 1.1rem;
+    color: #2d3748;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+/* Main welcome message */
+.welcome-message {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2d3748;
+    margin: 20px 0;
+}
+
+/* Instructions styling */
+.welcome-instructions {
+    font-size: 1rem;
+    color: #4a5568;
+    line-height: 1.6;
+    max-width: 600px;
+}
+
+    /* Step list styling */
+    .welcome-instructions ol {
+        padding: 0;
+        margin: 20px 0;
+        list-style-position: inside;
+    }
+
+        .welcome-instructions ol li {
+            margin-bottom: 10px;
+        }
+
+
+.file-message {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    word-break: break-all;
+}
+
+    .file-message i {
+        font-size: 1.2em;
+    }
+
+    .file-message .file-name {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+.sent-file {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+    .sent-file:hover {
+        background-color: rgba(0, 123, 255, 0.2);
+    }
+
+.received-file {
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+    .received-file:hover {
+        background-color: rgba(40, 167, 69, 0.2);
+    }
+
+.fa-download {
+    color: #28a745;
+}
+
+.fa-file {
+    color: #007bff;
+}
