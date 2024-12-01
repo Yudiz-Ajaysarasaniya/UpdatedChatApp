@@ -25,4 +25,8 @@
     <ProjectReference Include="..\UpdatedChatApp.notify\UpdatedChatApp.notify.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
 </Project>

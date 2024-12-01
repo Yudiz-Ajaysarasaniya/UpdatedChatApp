@@ -1,7 +1,9 @@
 ﻿@page "/chats"
 <link href="css/style.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+@using Blazored.Toast.Services
 @using Microsoft.AspNetCore.SignalR.Client
+@using UpdatedChatApp.Client.Models
 @using UpdatedChatApp.Client.Services
 @using UpdatedChatApp.model.Entities
 @using UpdatedChatApp.model.Request.Account
@@ -11,16 +13,41 @@
 @inject NavigationManager navigation
 @inject LocalStorageService localstorage
 @inject IJSRuntime JSRuntime
+@inject IToastService toastService
+
+<script>
+    window.clickElement = (elementId) => {
+        document.getElementById(elementId).click();
+    };
+</script>
+
+<script>
+    // Add this to your existing script section
+    window.downloadFile = (url, fileName) => {
+        fetch(url)
+            .then(response => response.blob())
+            .then(blob => {
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(link.href);
+            })
+            .catch(console.error);
+    };
+</script>
 
 
 <body>
     <div class="chat-container">
         <div class="chat-list">
             <!-- User Profile Section -->
-            <div class="user-profile">
+            <div class="user-profile" @onclick="ShowLoggedInUserProfile">
                 <img src="images/profile.png" alt="Profile" class="user-profile-image" />
                 <div class="user-info">
-                    <p class="username">@currentUser?.Email</p> <!-- Adjust to display name -->
+                    <p class="username">@LoggedInUserDetails.UserName</p> <!-- Adjust to display name -->
                     @* <p class="balance">₹ 0.00</p>
                     <p class="status">Available</p> *@
                 </div>
@@ -57,95 +84,143 @@
         @* chat window *@
         <div class="chat-window">
             @* chat header *@
-            @if(selectedUser == null)
+            @if (selectedUser == null)
             {
                 <!-- Welcome Screen -->
                 <div class="welcome-container">
                     @* <img src="images/profile.png" alt="Profile Image" class="welcome-profile-image">
-                    <div class="welcome-email">ajaysarasaniya11@gmail.com</div> *@
+                <div class="welcome-email">ajaysarasaniya11@gmail.com</div> *@
                     <div class="welcome-message">Welcome to ChatApp!</div>
                 </div>
             }
             else
             {
-                
-            <div class="chat-header">
 
-                @if (selectedUser != null)
+                <div class="chat-header">
 
-                {
+                    @if (selectedUser != null)
 
-                    <div class="user-profile-trigger" @onclick="ShowUserProfile">
+                    {
 
-                        <img src="images/profile.png" alt="Profile" width="40" height="40" class="profile-image-button" />
+                        <div class="user-profile-trigger" @onclick="ShowUserProfile">
 
-                        <h5 class="user-name-button">@selectedUser.UserName</h5>
+                            <img src="images/profile.png" alt="Profile" width="40" height="40" class="profile-image-button" />
 
-                    </div>
+                            <h5 class="user-name-button">@selectedUser.UserName</h5>
 
-                }
+                        </div>
 
-                <button class="btn btn-danger ms-auto" @onclick="Logout">Logout</button>
+                    }
 
-            </div>
+                    <button class="btn btn-danger ms-auto" @onclick="Logout">Logout</button>
 
-            <!-- User Profile Dialog -->
-            <div class="dialog-overlay @(_isDialogVisible ? "visible" : "")" @onclick="CloseDialog">
-                <div class="dialog-content" @onclick:stopPropagation="true">
-                    <div class="dialog-header">
-                        <img src="images/profile.png" alt="Profile" class="dialog-profile-image" />
-                        <h2 class="dialog-title">@selectedUser?.UserName</h2>
-                        <button class="close-button" @onclick="CloseDialog">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="dialog-body">
-                        <div class="profile-info">
-                            <div class="info-item">
-                                <i class="fas fa-envelope"></i>
-                                <span>@SelectedUserDetails.Email</span><br />
-                                <span>Name : @SelectedUserDetails.UserName</span><br />
-                                <span>@SelectedUserDetails.Password</span>
-                            </div>
-                            <div class="info-item">
-                                <i class="fas fa-circle text-success"></i>
-                                <span>Online</span>
+                </div>
+
+                <!-- User Profile Dialog -->
+                <div class="dialog-overlay @(_isDialogVisible ? "visible" : "")" @onclick="CloseDialog">
+                    <div class="dialog-content" @onclick:stopPropagation="true">
+                        <div class="dialog-header">
+                            <img src="images/profile.png" alt="Profile" class="dialog-profile-image" />
+                            <h2 class="dialog-title">@selectedUser?.UserName</h2>
+                            <button class="close-button" @onclick="CloseDialog">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="dialog-body">
+                            <div class="profile-info">
+                                <div class="info-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>@SelectedUserDetails.Email</span><br />
+                                    <span>Name : @SelectedUserDetails.UserName</span><br />
+                                    <span>@SelectedUserDetails.Password</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-circle text-success"></i>
+                                    <span>Online</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            @* chat view *@
-            <div class="message-area" @ref="messageAreaRef">
+                @* chat view *@
+                <div class="message-area" @ref="messageAreaRef">
 
-                @foreach (var msg in messages)
+                    @foreach (var msg in messages)
 
-                {
-                    <div class="message @(msg.SenderId == currentUser.Id ? "message-right" : "message-left")">
+                    {
+                        @* In the message-area div, update the message display: *@
+                        <div class="message @(msg.SenderId == currentUser.Id ? "message-right" : "message-left")">
+                            <div class="message-content">
+                                @if (msg.Content.StartsWith("[File]"))
+                                {
+                                    var fileInfo = msg.Content.Replace("[File] ", "").Split(" - ");
+                                    var fileName = fileInfo[0];
+                                    var fileUrl = fileInfo[1];
+                                    <div class="file-message @(msg.SenderId == currentUser.Id ? "sent-file" : "received-file")"
+                                         @onclick="() => HandleFileClick(fileUrl, fileName, msg.SenderId == currentUser.Id)">
+                                        <i class="fas fa-file"></i>
+                                        <span class="file-name">@fileName</span>
+                                        @if (msg.SenderId != currentUser.Id)
+                                        {
+                                            <i class="fas fa-download"></i>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    @msg.Content
+                                }
+                            </div>
+                        </div>
+                    }
 
-                        <div class="message-content">@msg.Content</div>
-
-                       @*  <small>@msg.Timestamp.ToString("g")</small> *@
-
-                    </div>
-                }
-
-            </div>
-
-            <div class="input-area">
-                <div class="input-group">
-                   <i class="fa-solid fa-paperclip"></i>
-                    <input type="text" @bind="newMessage" @onkeyup="HandleKeyPress"
-                           placeholder="Type a message..." aria-label="Type a message" aria-describedby="send-button"/>
-                    <button class="btn btn-outline-secondary" type="button" id="send-button" @onclick="SendMessage">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
                 </div>
-            </div>
+
+                @* Input area ma aa changes karo *@
+                <div class="input-area">
+                    <div class="input-group">
+                        <InputFile OnChange="@HandleFileSelection" class="d-none" id="fileInput" accept="image/*,.pdf,.doc,.docx" />
+                        <i class="fa-solid fa-paperclip" @onclick="@(() => JSRuntime.InvokeVoidAsync("clickElement", "fileInput"))" style="cursor: pointer;"></i>
+                        <input type="text" @bind="newMessage" @onkeyup="HandleKeyPress"
+                               placeholder="Type a message..." aria-label="Type a message" aria-describedby="send-button" />
+                        <button class="btn btn-outline-secondary" type="button" id="send-button" @onclick="SendMessage">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
             }
         </div>
     </div>
+
+    @* Add a new dialog for logged-in user profile *@
+    
+    <div class="dialog-overlay @(_isLoggedInUserDialogVisible ? "visible" : "")" @onclick="CloseLoggedInUserDialog">
+        <div class="dialog-content" @onclick:stopPropagation="true">
+            <div class="dialog-header">
+                <img src="images/profile.png" alt="Profile" class="dialog-profile-image" />
+                <h2 class="dialog-title">@LoggedInUserDetails.UserName</h2>
+                <button class="close-button" @onclick="CloseLoggedInUserDialog">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="dialog-body">
+                <div class="profile-info">
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>@LoggedInUserDetails.Email</span><br />
+                        <span>Name: @LoggedInUserDetails.UserName</span><br />
+                        <span>@LoggedInUserDetails.Password</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-circle text-success"></i>
+                        <span>Online</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 
@@ -162,6 +237,10 @@
     private Timer messagePollingTimer;
     private bool _isDialogVisible;
     private RegisterRequest SelectedUserDetails = new RegisterRequest();
+    private bool _isLoggedInUserDialogVisible;
+    private RegisterRequest LoggedInUserDetails = new RegisterRequest();
+    private IBrowserFile selectedFile;
+    private string fileUrl;
 
     protected override async Task OnInitializedAsync()
     {
@@ -177,7 +256,7 @@
             navigation.NavigateTo("/");
             return;
         }
-
+        await GetLoggedInUserDetails();
         await LoadUsers();
         await SetupSignalRConnection();
     }
@@ -210,11 +289,12 @@
             });
 
             await hubConnection.StartAsync();
-            Console.WriteLine("SignalR Connected Successfully");
+            //Console.WriteLine("SignalR Connected Successfully");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error setting up SignalR connection: {ex.Message}");
+            toastService.ShowError("Error setting up SignalR connection");
+            //Console.WriteLine($"Error setting up SignalR connection: {ex.Message}");
         }
     }
 
@@ -341,7 +421,7 @@
     {
         var ApiEndPoint = $"https://localhost:7145/api/User/GetUserById?id={selectedUser.Id}";
         var response = await http.GetFromJsonAsync<RegisterRequest>(ApiEndPoint);
-        if(response != null)
+        if (response != null)
         {
             SelectedUserDetails = response;
             StateHasChanged();
@@ -351,4 +431,101 @@
             Console.WriteLine("user not found");
         }
     }
+
+    private async Task ShowLoggedInUserProfile()
+    {
+        await GetLoggedInUserDetails();
+        _isLoggedInUserDialogVisible = true;
+        StateHasChanged();
+    }
+
+    private void CloseLoggedInUserDialog()
+    {
+        _isLoggedInUserDialogVisible = false;
+        StateHasChanged();
+    }
+
+    private async Task GetLoggedInUserDetails()
+    {
+        var ApiEndPoint = $"https://localhost:7145/api/User/GetUserById?id={currentUser.Id}";
+        var response = await http.GetFromJsonAsync<RegisterRequest>(ApiEndPoint);
+        if (response != null)
+        {
+            LoggedInUserDetails = response;
+            StateHasChanged();
+        }
+        else
+        {
+            Console.WriteLine("user not found");
+        }
+    }
+
+    private async Task HandleFileSelection(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+        if (selectedFile != null)
+        {
+            await SendFileMessage();
+        }
+    }
+
+
+
+    private async Task SendFileMessage()
+    {
+        try
+        {
+            var content = new MultipartFormDataContent();
+            var fileContent = new StreamContent(selectedFile.OpenReadStream(maxAllowedSize: 10485760)); // 10MB max
+            content.Add(fileContent, "file", selectedFile.Name);
+            content.Add(new StringContent(currentUser.Id.ToString()), "senderId");
+            content.Add(new StringContent(selectedUser.Id.ToString()), "receiverId");
+
+            var response = await http.PostAsync("https://localhost:7145/api/Chat/UploadFile", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<FileResponse>();
+
+                if (result != null && hubConnection.State == HubConnectionState.Connected)
+                {
+                    // Construct full URL for the file
+                    var baseUrl = "https://localhost:7145"; // Update this to match your API base URL
+                    var fileUrl = $"{baseUrl}{result.FileUrl}";
+                    var fileMessage = $"[File] {selectedFile.Name} - {fileUrl}";
+                    await hubConnection.InvokeAsync("SendMessage", currentUser.Id, selectedUser.Id, fileMessage);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error uploading file: {ex.Message}");
+        }
+    }
+
+    private async Task HandleFileClick(string fileUrl, string fileName, bool isSender)
+    {
+        try
+        {
+            if (isSender)
+            {
+                // For sent files - open in new tab
+                await JSRuntime.InvokeVoidAsync("window.open", fileUrl, "_blank");
+            }
+            else
+            {
+                // For received files - trigger download
+                // Using JS interop to trigger the download
+                await JSRuntime.InvokeVoidAsync("downloadFile", fileUrl, fileName);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error handling file click: {ex.Message}");
+        }
+    }
+
+
 }
+
+

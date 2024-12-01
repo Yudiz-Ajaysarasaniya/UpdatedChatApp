@@ -514,3 +514,50 @@ body, html {
         .welcome-instructions ol li {
             margin-bottom: 10px;
         }
+
+
+.file-message {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    word-break: break-all;
+}
+
+    .file-message i {
+        font-size: 1.2em;
+    }
+
+    .file-message .file-name {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+.sent-file {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+    .sent-file:hover {
+        background-color: rgba(0, 123, 255, 0.2);
+    }
+
+.received-file {
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+    .received-file:hover {
+        background-color: rgba(40, 167, 69, 0.2);
+    }
+
+.fa-download {
+    color: #28a745;
+}
+
+.fa-file {
+    color: #007bff;
+}
