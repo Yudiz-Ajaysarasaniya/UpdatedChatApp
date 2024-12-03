@@ -28,38 +28,40 @@ namespace UpdatedChatApp.Controllers
             return Ok(messages);
         }
         [HttpPost("UploadFile")]
-        public async Task<IActionResult> UploadFile([FromForm] IFormFile file, [FromForm] string senderId, [FromForm] string receiverId)
+        public async Task<IActionResult> UploadFiles([FromForm] List<IFormFile> files, [FromForm] string senderId, [FromForm] string receiverId)
         {
             try
             {
-                if (file == null || file.Length == 0)
-                    return BadRequest("No file uploaded");
+                if (files == null || files.Count == 0)
+                    return BadRequest("No files uploaded");
 
-                // Create uploads directory if it doesn't exist
+                var uploadedFiles = new List<object>();
                 var uploadsFolder = Path.Combine(environment.WebRootPath, "uploads");
                 if (!Directory.Exists(uploadsFolder))
                     Directory.CreateDirectory(uploadsFolder);
 
-                // Generate unique filename
-                var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                // Save file
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                foreach (var file in files)
                 {
-                    await file.CopyToAsync(stream);
+                    var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    var fileUrl = $"/uploads/{uniqueFileName}";
+                    uploadedFiles.Add(new { FileUrl = fileUrl });
                 }
 
-                // Return file URL
-                // Return file URL as JSON object
-                var fileUrl = $"/uploads/{uniqueFileName}";
-                return Ok(new { FileUrl = fileUrl });
+                return Ok(uploadedFiles);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex}");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
 
     }
