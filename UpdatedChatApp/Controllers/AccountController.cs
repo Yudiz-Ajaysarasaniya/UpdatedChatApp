@@ -102,12 +102,12 @@ namespace UpdatedChatApp.Controllers
         [HttpPost("forgot")]
         public async Task<IActionResult> ForgotPassword(ForgotPassword request)
         {
-            if(string.IsNullOrWhiteSpace(request.Email))
+            if (string.IsNullOrWhiteSpace(request.Email))
             {
                 return BadRequest("Email cannot be null");
             }
 
-            if(request == null)
+            if (request == null)
             {
                 return BadRequest("Email cannot be null");
             }
@@ -121,6 +121,28 @@ namespace UpdatedChatApp.Controllers
                 result.IsSuccess,
                 result.Message
             });
+        }
+        [HttpPost("reset_password")]
+        public async Task<IActionResult> ResetPasswordAsync(ResetPasswordRequest request)
+        {
+            if(string.IsNullOrWhiteSpace(request.Password) && string.IsNullOrWhiteSpace(request.Password))
+            {
+                return BadRequest("Password does not contain space");
+            }
+
+            if(request.Password != request.ConfirmPassword)
+            {
+                return BadRequest("Password does not match!");
+            }
+
+            var result = await accountService.ResetPassword(request);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.ErrorMessage);
+            }
+
+            return Ok(result.Message);
         }
     }
 }

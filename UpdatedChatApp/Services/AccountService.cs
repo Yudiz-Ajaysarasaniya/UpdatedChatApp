@@ -150,7 +150,8 @@ namespace UpdatedChatApp.Services
         {
             var user = await dbcontext.Users.FirstOrDefaultAsync(x => x.Email.Equals(request.Email));
 
-            if (user == null) {
+            if (user == null)
+            {
 
                 return new BaseResponse
                 {
@@ -177,6 +178,31 @@ namespace UpdatedChatApp.Services
             {
                 IsSuccess = true,
                 Message = "OTP sent successfully to your email"
+            };
+        }
+
+        public async Task<BaseResponse> ResetPassword(ResetPasswordRequest request)
+        {
+            var user = await dbcontext.Users.FirstOrDefaultAsync(x => x.Email.Equals(request.Email));
+
+            if (user == null)
+            {
+                return new BaseResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "User not found"
+                };
+            }
+
+            user.Password = request.Password;
+            dbcontext.Users.Update(user);
+            await dbcontext.SaveChangesAsync();
+
+
+            return new BaseResponse
+            {
+                IsSuccess = true,
+                Message = "Password reset successfully"
             };
         }
     }

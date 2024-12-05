@@ -68,8 +68,8 @@
             if (response.IsSuccessStatusCode)
             {
                 // Clear the email from local storage after successful verification
-                await LocalStorage.RemoveItemAsync("VerificationEmail");
-                navigation.NavigateTo("/");
+                //await LocalStorage.RemoveItemAsync("VerificationEmail");
+                navigation.NavigateTo("/reset-password");
             }
             else
             {

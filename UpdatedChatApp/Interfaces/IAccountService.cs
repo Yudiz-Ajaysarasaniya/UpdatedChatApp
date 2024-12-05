@@ -10,5 +10,6 @@ namespace UpdatedChatApp.Interfaces
         Task<string> RegisterUserAsync(RegisterRequest register);
         Task<BaseResponse> VerifyOtpAsync(VerifyOtp otpVerify);
         Task<BaseResponse> ForgotPasswordAsync(ForgotPassword request);
+        Task<BaseResponse> ResetPassword(ResetPasswordRequest request);
     }
 }
