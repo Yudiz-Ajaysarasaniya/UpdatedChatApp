@@ -30,6 +30,7 @@ body, html {
     display: flex;
     align-items: center;
 }
+
 .chat-info {
     display: flex;
     align-items: center;
@@ -61,6 +62,7 @@ body, html {
     align-items: center;
     gap: 10px;
 }
+
 .username {
     font-size: 0.95rem;
     font-weight: 500;
@@ -130,11 +132,11 @@ body, html {
     display: flex;
     flex-direction: column;
     background: white;
-    border: 1px solid #e1e4e8;  /* Light gray professional border */
-    border-radius: 8px;         /* Rounded corners */
-    margin: 10px;              /* Some spacing from edges */
+    border: 1px solid #e1e4e8; /* Light gray professional border */
+    border-radius: 8px; /* Rounded corners */
+    margin: 10px; /* Some spacing from edges */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
-    overflow: hidden;          /* Keeps child elements within border radius */
+    overflow: hidden; /* Keeps child elements within border radius */
 }
 
 /* Chat header */
@@ -195,7 +197,7 @@ body, html {
 }
 
 .message-right {
-    background: linear-gradient(135deg, rgb(198, 231, 255) 0%, rgb(142, 199, 255) 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     margin-left: auto;
     border-bottom-right-radius: 5px;
@@ -309,6 +311,10 @@ body, html {
     color: white;
     font-weight: 500;
     transition: all 0.3s ease;
+    margin-top: 10px;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 10px;
 }
 
     .btn-danger:hover {
@@ -409,6 +415,10 @@ body, html {
 .dialog-body {
     padding: 20px;
     /*height: 200px;*/
+    /*display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;*/
 }
 
 .profile-info {
@@ -429,6 +439,7 @@ body, html {
         width: 20px;
         color: #667eea;
     }
+
 .user-profile-trigger {
     display: flex;
     align-items: center;
@@ -559,5 +570,6 @@ body, html {
 }
 
 .fa-file {
-    color: #007bff;
+    /*color: #007bff;*/
+    color: revert-layer;
 }

@@ -23,6 +23,13 @@ namespace UpdatedChatApp.Services
                  .ToListAsync();
         }
 
+        public async Task<int> MessageCount(Guid senderId, Guid receiverId)
+        {
+            var count = dbContext.Messages.Count(x => x.SenderId.Equals(senderId) && x.ReceiverId.Equals(receiverId) && !x.IsRead);
+
+            return count;
+        }
+
         public async Task<ChatMessage> SaveMessageAsync(Guid senderId, Guid receiverId, string content)
         {
             var message = new ChatMessage
@@ -30,7 +37,8 @@ namespace UpdatedChatApp.Services
                 SenderId = senderId,
                 ReceiverId = receiverId,
                 Content = content,
-                Timestamp = DateTime.UtcNow
+                Timestamp = DateTime.UtcNow,
+                IsRead = false
             };
 
             dbContext.Messages.Add(message);

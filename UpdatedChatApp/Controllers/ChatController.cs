@@ -62,6 +62,23 @@ namespace UpdatedChatApp.Controllers
             }
         }
 
+        [HttpGet("count")]
+        public async Task<IActionResult> MessageCountAsync(Guid senderId, Guid receiverId)
+        {
+            if(senderId == null && receiverId == null)
+            {
+                return BadRequest();
+            }
+
+            var count = await chatService.MessageCount(senderId, receiverId);
+
+            if (count == 0)
+            {
+                return BadRequest();
+            }
+
+            return Ok(count);
+        }
 
 
     }

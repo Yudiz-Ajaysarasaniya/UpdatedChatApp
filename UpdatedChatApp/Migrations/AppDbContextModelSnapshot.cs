@@ -40,6 +40,9 @@ namespace UpdatedChatApp.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("Modified")
                         .HasColumnType("datetime2");
 

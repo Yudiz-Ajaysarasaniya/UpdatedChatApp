@@ -145,5 +145,39 @@ namespace UpdatedChatApp.Services
                 ErrorMessage = "Invalid or expired OTP."
             };
         }
+
+        public async Task<BaseResponse> ForgotPasswordAsync(ForgotPassword request)
+        {
+            var user = await dbcontext.Users.FirstOrDefaultAsync(x => x.Email.Equals(request.Email));
+
+            if (user == null) {
+
+                return new BaseResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "User not found"
+                };
+            }
+
+            // Generate OTP and set expiry
+            string otp = new Random().Next(100000, 999999).ToString();  // 6-digit OTP
+            DateTime expiry = DateTime.UtcNow.AddMinutes(10);
+
+            user.OtpCode = otp;
+            user.OtpExpiry = expiry;
+            dbcontext.Users.Update(user);
+            await dbcontext.SaveChangesAsync();
+
+            // Send OTP via email
+            var subject = "Verify Your Email";
+            var body = $"Your OTP code is {otp}. It is valid for 10 minutes.";
+            await messages.SendMail(request.Email, subject, body);
+
+            return new BaseResponse
+            {
+                IsSuccess = true,
+                Message = "OTP sent successfully to your email"
+            };
+        }
     }
 }

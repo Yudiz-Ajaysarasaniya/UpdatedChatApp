@@ -33,7 +33,7 @@
         <button type="submit" class="btn btn-primary mt-3 w-100">Sign Up</button>
     </EditForm>
     <div class="mt-3">
-        Don't have an account yet? <a href="/">Login</a>
+        Already have an account? <a href="/">Login</a>
     </div>
 </div>
 
@@ -78,8 +78,8 @@
             if (response.IsSuccessStatusCode)
             {
                 // Store the email in local storage
-                await LocalStorage.SetItemAsync("VerificationEmail", registerModel.Email);
-                NavigationManager.NavigateTo("/otp-verify");
+               // await LocalStorage.SetItemAsync("VerificationEmail", registerModel.Email);
+                NavigationManager.NavigateTo("/");
             }
             else
             {

@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UpdatedChatApp.Client", "Up
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{F75CFC66-F111-4DD1-93E2-77E744C251F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdatedChatApp.model", "UpdatedChatApp.model\UpdatedChatApp.model.csproj", "{FD949A1F-D66A-496B-AE52-1042EC80471D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UpdatedChatApp.model", "UpdatedChatApp.model\UpdatedChatApp.model.csproj", "{FD949A1F-D66A-496B-AE52-1042EC80471D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdatedChatApp.notify", "UpdatedChatApp.notify\UpdatedChatApp.notify.csproj", "{CCBF01F6-4924-486E-8895-AF5626083710}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UpdatedChatApp.notify", "UpdatedChatApp.notify\UpdatedChatApp.notify.csproj", "{CCBF01F6-4924-486E-8895-AF5626083710}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdatedChatApp.security", "UpdatedChatApp.security\UpdatedChatApp.security.csproj", "{6519F1D8-445D-4B72-8DC3-FD36B32D65EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UpdatedChatApp.security", "UpdatedChatApp.security\UpdatedChatApp.security.csproj", "{6519F1D8-445D-4B72-8DC3-FD36B32D65EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

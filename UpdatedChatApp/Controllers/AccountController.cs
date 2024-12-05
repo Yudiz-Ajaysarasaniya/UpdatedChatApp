@@ -99,5 +99,28 @@ namespace UpdatedChatApp.Controllers
                 return StatusCode(500, "An error occurred: " + ex.Message);
             }
         }
+        [HttpPost("forgot")]
+        public async Task<IActionResult> ForgotPassword(ForgotPassword request)
+        {
+            if(string.IsNullOrWhiteSpace(request.Email))
+            {
+                return BadRequest("Email cannot be null");
+            }
+
+            if(request == null)
+            {
+                return BadRequest("Email cannot be null");
+            }
+
+            var result = await accountService.ForgotPasswordAsync(request);
+
+            if (!result.IsSuccess) return BadRequest(result.ErrorMessage);
+
+            return Ok(new
+            {
+                result.IsSuccess,
+                result.Message
+            });
+        }
     }
 }

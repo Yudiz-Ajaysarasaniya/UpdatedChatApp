@@ -53,7 +53,7 @@
         userEmail = await LocalStorage.GetItemAsync<string>("VerificationEmail");
         if (string.IsNullOrEmpty(userEmail))
         {
-            navigation.NavigateTo("/register");
+            navigation.NavigateTo("/reset-password");
         }
     }
 
